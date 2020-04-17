@@ -4,19 +4,24 @@
 
 
 ---------------------[[ Ruby Global Languages ]]---------------------
-local Ruby_Client_Current_Version = "1.01"
-local Ruby_Client_Latest_Version = "Soon !"--http.Get("https://raw.githubusercontent.com/D3sReD/Ruby-Client/master/latest-version.txt")
+local Ruby_Client_Current_Version = "1.02"
+local Ruby_Client_Latest_Version = http.Get("https://raw.githubusercontent.com/D3sReD/Ruby-Client/master/latest-version.txt")
+
+local Ruby_Client_Change_Logs = http.Get("https://raw.githubusercontent.com/D3sReD/Ruby-Client/master/change-logs.txt")
+
+local Ruby_Client_Download_Link = http.Get("https://raw.githubusercontent.com/D3sReD/Ruby-Client/master/RubyClient.lua")
 
 local Ruby_C_Option_Ex_Title = {"Ruby Client","Updater","Change Logs","Main Option"}
 local Ruby_C_Option_Ex_GP1_Text = {"Current Version | ","Latest Version | ","Update (Not in-game)"}
-local Ruby_C_Option_Ex_GP2_Text = "Soon !"--http.Get("https://raw.githubusercontent.com/D3sReD/Ruby-Client/master/change-logs.txt")
-local Ruby_C_Option_Ex_GP3_Text = {"Menu Key"}
+
+local Ruby_C_Option_Ex_GP3_Text = {"Menu Key","Menu Scale X","Menu Scale Y","Hide Crédit"}
 
 local Ruby_C_Main_Title = " "
-local Ruby_C_Main_Version = "Version Développement "..Ruby_Client_Current_Version
+local Ruby_C_Main_Version_Text = {"Version | ","( Update Available )"}
 ---------------------[[ Ruby Global Variables ]]---------------------
 local RubyMainWindowCooldown = 10
 local last_action = globals.TickCount()
+local Ruby_Original_Name = ""
 
 local Ruby_C_Active_tab_Status = 1
 local Ruby_C_Active_Sidebar_Status = 1
@@ -27,19 +32,17 @@ local Ruby_C_Main_Height = 376
 local Ruby_C_Main_Width = 600
 
 local Ruby_C_M_Bar_Height = 24
-local Ruby_C_M_Bar_Width = Ruby_C_Main_Width
 local Ruby_C_M_Bar_adjust = 5
 
 local Ruby_C_M_UnderBar_Height = 1
-local Ruby_C_M_UnderBar_Width = Ruby_C_Main_Width
 
 ---------------------[[ Ruby Global Functions ]]---------------------
---[[local function Update() 
+local function Update() 
     currentScript = file.Open(GetScriptName(), "w")
-    currentScript:Write(http.Get("https://raw.githubusercontent.com/D3sReD/Ruby-Client/master/RubyClient.lua"))
+    currentScript:Write(Ruby_Client_Download_Link)
     currentScript:Close()
     LoadScript(GetScriptName())
-end]]
+end
 local function inBounds(x, y, x1, y1)
 	mx, my = input.GetMousePos()
     return mx >= x and mx <= x1 and my >= y and my <= y1;
@@ -53,6 +56,7 @@ function RoundedRectangle(r, g, b, a, posx, posy, posx2, posy2, round, tl, tr, b
 end
 
 local RubyFontArial14 = draw.CreateFont( "Arial", 14 )
+local RubyFontArialBlack16 = draw.CreateFont( "Arial Black", 16 )
 local RubyFontArialBlack20 = draw.CreateFont( "Arial Black", 20 )
 function DrawText(font,r ,g ,b ,a, posx, posy, Text)
 
@@ -60,11 +64,23 @@ function DrawText(font,r ,g ,b ,a, posx, posy, Text)
 	draw.Color(r ,g ,b ,a)
 	draw.Text(posx ,posy ,Text)
 end
+
+local function GetOriginalName()
+
+	Ruby_Original_Name = client.GetConVar("Name")
+
+end
+GetOriginalName()
+
+local function SetName(name)
+	client.SetConVar("name", name);
+end
 ----------------------[[ Ruby  Global Window ]]----------------------
 local Ruby_C_Option_Ex_Reference = gui.Reference("Settings")
 local Ruby_C_Option_Ex_Tab = gui.Tab(Ruby_C_Option_Ex_Reference, "ruby.client.option.ex.tab", Ruby_C_Option_Ex_Title[1])
 
 local Ruby_C_Option_Ex_GP1 = gui.Groupbox(Ruby_C_Option_Ex_Tab, Ruby_C_Option_Ex_Title[2], 16,16,295,300)
+
 local Ruby_C_Option_Ex_GP1_Text1 = gui.Text( Ruby_C_Option_Ex_GP1, Ruby_C_Option_Ex_GP1_Text[1]..Ruby_Client_Current_Version)
 local Ruby_C_Option_Ex_GP1_Text2 = gui.Text( Ruby_C_Option_Ex_GP1, Ruby_C_Option_Ex_GP1_Text[2]..Ruby_Client_Latest_Version)
 if Ruby_Client_Latest_Version ~= nil then
@@ -73,22 +89,34 @@ else
     Ruby_C_Option_Ex_GP1_Text2:SetText(Ruby_C_Option_Ex_GP1_Text[2].."Error, try to reload the script")
 end
 local Ruby_C_Option_Ex_GP1_Bp1 = gui.Button( Ruby_C_Option_Ex_GP1, Ruby_C_Option_Ex_GP1_Text[3], function() 
-	print("Soon !")
-	--[[if Ruby_Client_Current_Version ~= Ruby_Client_Latest_Version and Ruby_Client_Latest_Version ~= nil then
+	if Ruby_Client_Current_Version ~= Ruby_Client_Latest_Version and Ruby_Client_Latest_Version ~= nil then
 		print("[Ruby Client] Downloading file !")
 		Update()
 	else
 		print("[Ruby Client] Already up to date !")
-	end]]
+	end
 end)
 
 local Ruby_C_Option_Ex_GP2 = gui.Groupbox(Ruby_C_Option_Ex_Tab, Ruby_C_Option_Ex_Title[3], 328,16,295,300)
-local Ruby_C_Option_Ex_GP2_Text = gui.Text(Ruby_C_Option_Ex_GP2, Ruby_C_Option_Ex_GP2_Text)
+local Ruby_C_Option_Ex_GP2_Text = gui.Text(Ruby_C_Option_Ex_GP2, Ruby_Client_Change_Logs)
 
 local Ruby_C_Option_Ex_GP3 = gui.Groupbox(Ruby_C_Option_Ex_Tab, Ruby_C_Option_Ex_Title[4], 16,185,295,300)
 local Ruby_C_Option_Ex_GP3_Key1 = gui.Keybox( Ruby_C_Option_Ex_GP3, "ruby.client.option.ex.key1", Ruby_C_Option_Ex_GP3_Text[1], 45) --Default = 45 https://keycode.info/
+local Ruby_C_Option_Ex_GP3_Menu_Scale_X = gui.Slider( Ruby_C_Option_Ex_GP3, "ruby.client.option.ex.scale.x", Ruby_C_Option_Ex_GP3_Text[2], Ruby_C_Main_Width, Ruby_C_Main_Width, 1200)
+local Ruby_C_Option_Ex_GP3_Menu_Scale_Y = gui.Slider( Ruby_C_Option_Ex_GP3, "ruby.client.option.ex.scale.y", Ruby_C_Option_Ex_GP3_Text[3], Ruby_C_Main_Height, Ruby_C_Main_Height, 752)
+local Ruby_C_Option_Ex_GP3_Checkbox1 = gui.Checkbox( Ruby_C_Option_Ex_GP3, "ruby.client.option.ex.checkbox1", Ruby_C_Option_Ex_GP3_Text[4], false )
 
 local Ruby_C_Main = gui.Window( "ruby.client.main", Ruby_C_Main_Title, Ruby_C_Main_PosX, Ruby_C_Main_PosY, Ruby_C_Main_Width, Ruby_C_Main_Height )
+
+callbacks.Register("Draw", function()
+
+	Ruby_C_Main_Height = Ruby_C_Option_Ex_GP3_Menu_Scale_Y:GetValue()
+	Ruby_C_Main_Width = Ruby_C_Option_Ex_GP3_Menu_Scale_X:GetValue()
+
+	Ruby_C_Main:SetWidth( Ruby_C_Main_Width ) 
+	Ruby_C_Main:SetHeight( Ruby_C_Main_Height ) 
+
+end)
 
 local Ruby_C_Visuals1_GP1 = gui.Groupbox( Ruby_C_Main, "Option(s)", 176, 16, Ruby_C_Main_Width * 0.68,300 ) -- "Player FOV" --local Ruby_C_Visuals_GP1 = gui.Groupbox( Ruby_C_Main, "Test", 176, 16, 295,300 )
 
@@ -154,9 +182,6 @@ local Ruby_C_M_Groups_Display_Table = 	{	--Tabs 1
 										}
 
 ----------------------[[ Ruby  Global Window ]]----------------------
-if Ruby_Client_Current_Version ~= Ruby_Client_Latest_Version and Ruby_Client_Latest_Version ~= nil then
-    Ruby_C_Main_Version = Ruby_C_Main_Version.." (Update Available !)"
-end
 
 local Ruby_C_Main_Bar = gui.Custom( Ruby_C_Main, "ruby.client.main.bar", 1, 1, 1000, 1000, function()
 	--Setup
@@ -165,14 +190,14 @@ local Ruby_C_Main_Bar = gui.Custom( Ruby_C_Main, "ruby.client.main.bar", 1, 1, 1
 	--Main Bar
 	local x1B = RCMBx
 	local y1B = RCMBy - Ruby_C_M_Bar_Height
-	local x2B = RCMBx + Ruby_C_M_Bar_Width
+	local x2B = RCMBx + Ruby_C_Main_Width
 	local y2B = RCMBy + Ruby_C_M_Bar_adjust
 	RoundedRectangle(220, 40, 40, 255, x1B, y1B, x2B, y2B, 6, 1, 1, 0, 0)
 
 	--Main underbar
 	local x1UB = RCMBx
 	local y1UB = RCMBy + Ruby_C_Main_Height - Ruby_C_M_Bar_Height
-	local x2UB = RCMBx + Ruby_C_M_UnderBar_Width
+	local x2UB = RCMBx + Ruby_C_Main_Width
 	local y2UB = RCMBy + Ruby_C_Main_Height
 
 	local x1UBT1 = x1UB + 10
@@ -180,8 +205,19 @@ local Ruby_C_Main_Bar = gui.Custom( Ruby_C_Main, "ruby.client.main.bar", 1, 1, 1
 
 	RoundedRectangle(220, 40, 40, 255, x1UB, y1UB, x2UB, y2UB, 6, 0, 0, 1, 1)
 
-	DrawText(RubyFontArialBlack20 ,255 ,255 ,255 ,255 , x1UBT1 ,y1UBT1 ,Ruby_C_Main_Version)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	DrawText(RubyFontArialBlack16 ,255 ,255 ,255 ,255 , x1UBT1 ,y1UBT1 + 3 ,"V"..Ruby_Client_Current_Version )
+	DrawText(RubyFontArial14 ,255 ,255 ,255 ,255 , x1UBT1 + 38 ,y1UBT1 + 3 ,"for Aimware V5")
+	if Ruby_Client_Current_Version ~= Ruby_Client_Latest_Version and Ruby_Client_Latest_Version ~= nil then
+		DrawText(RubyFontArialBlack16 ,255 ,255 ,255 ,255 , x1UBT1 + Ruby_C_Main_Width / 2 - string.len(Ruby_C_Main_Version_Text[2]) * 3 ,y1UBT1 + 3 ,Ruby_C_Main_Version_Text[2])
+	end
 
+	if not Ruby_C_Option_Ex_GP3_Checkbox1:GetValue() then
+		DrawText(RubyFontArial14 ,255 ,255 ,255 ,255 , x1UBT1 + Ruby_C_Main_Width - 182 ,y1UBT1 + 3 ,"github.com/D3sReD/Ruby-Client")
+	else 
+		DrawText(RubyFontArialBlack20 ,255 ,255 ,255 ,255 , x1UBT1 + Ruby_C_Main_Width - string.len(Ruby_Original_Name) * 8 - 34,y1UBT1 ,Ruby_Original_Name)
+	end
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	--Tabs Creator/Manager --(pas sur --peut etre source de crash (a mettre avant onglet))
 	local x1Bp = RCMBx + BpDecal
 	local y1Bp = RCMBy - Ruby_C_M_Bar_Bp_Height
