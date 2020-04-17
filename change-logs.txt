@@ -1,0 +1,14 @@
+Version 1.02
+--------------
+* Fix Menu
++ Player FOV
++ Skybox change & Nighmode
++ Hand weapon switcher
++ Quick switch Weapon/Knive
++ Custom nade ESP
++ Misc - Simple Radar ESP
+________________
+
+Version 1.01
+--------------
+Initial Blank Menu
