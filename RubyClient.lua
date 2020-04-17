@@ -1,8 +1,3 @@
---------------------[[ Ruby Client |To do list ]]-------------------- %appdata%\kosYLRyOICCSayceYCicqNKX\VUXlfkLqreWlGB
---Essayer encore d'augmenter les perfs du menu
---Développé les fonctionnalités
-
-
 ---------------------[[ Ruby Global Languages ]]---------------------
 local Ruby_Client_Current_Version = "1.02"
 local Ruby_Client_Latest_Version = http.Get("https://raw.githubusercontent.com/D3sReD/Ruby-Client/master/latest-version.txt")
