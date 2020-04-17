@@ -1,14 +1,14 @@
 _______________________________
-Version 1.03                         |
-_______________________________|
+Version 1.03
+_______________________________
 Global :
  * Fix bug
 Quickswitch :
  + Weapon switch choice 
  + Switch delay 
 _______________________________
-Version 1.02                   |
-_______________________________|
+Version 1.02
+_______________________________
 Global :
  * Fix Menu
  + Player FOV
@@ -18,6 +18,6 @@ Global :
  + Custom nade ESP
  + Misc - Simple Radar ESP
 _______________________________
-Version 1.01                   |
-_______________________________|
+Version 1.01
+_______________________________
 Initial Blank Menu
