@@ -6,7 +6,6 @@ Global :
  * Menu reorganization
 Quickswitch :
  + Defuse Bot
- + 
 _______________________________
 Version 1.02
 _______________________________
