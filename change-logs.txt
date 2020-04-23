@@ -2,20 +2,21 @@ _______________________________
 Version 1.03
 _______________________________
 Global :
- * Fix bug
+ * Fix Menu bug
+ * Menu reorganization
 Quickswitch :
- + Weapon switch choice 
- + Switch delay 
+ + Defuse Bot
+ + 
 _______________________________
 Version 1.02
 _______________________________
 Global :
  * Fix Menu
- + Player FOV
+ + FOV changer + Viewmodel changer
  + Skybox change & Nighmode
  + Hand weapon switcher
  + Quick switch Weapon/Knive
- + Custom nade ESP
+ + Custom nade ESP + Time
  + Misc - Simple Radar ESP
 _______________________________
 Version 1.01
