@@ -4,8 +4,8 @@ _______________________________
 Global :
  * Fix Menu bug
  * Menu reorganization
-Quickswitch :
  + Defuse Bot
+ + Auto Update at run
 _______________________________
 Version 1.01
 _______________________________
