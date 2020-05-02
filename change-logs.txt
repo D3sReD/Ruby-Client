@@ -19,7 +19,7 @@ _______________________________
 Global :
  * Fix Menu
  + FOV changer + Viewmodel changer
- + Skybox change & Nighmode
+ + Skybox change
  + Hand weapon switcher
  + Quick switch Weapon/Knive
  + Custom nade ESP + Time
