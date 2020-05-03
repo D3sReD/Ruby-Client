@@ -5,6 +5,7 @@ Global :
  * Fix Menu bug
  * Fix SkyBox
  + Add refresh Skybox
+ + Add recoil crosshair
 _______________________________
 Version 1.02
 _______________________________
@@ -24,7 +25,3 @@ Global :
  + Quick switch Weapon/Knive
  + Custom nade ESP + Time
  + Misc - Simple Radar ESP
-_______________________________
-Version 1.00
-_______________________________
-Initial Blank Menu
