@@ -1,7 +1,9 @@
 _______________________________
-Version 1.03 Soon !
+Version 1.03f
 _______________________________
 Global :
+ * Skybox changer disable 
+   for csgo detection
  * Fix Menu bug
  * Fix SkyBox
  + Add refresh Skybox
